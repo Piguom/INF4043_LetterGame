@@ -1,30 +1,14 @@
 package Plateau;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Menu;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.awt.EventQueue;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import Connexion.Client;
-import Connexion.Serveur;
+import Connexion.Server;
 
 public class PageLancement {
 	
-	final static JFrame lancement = new JFrame();
+	/*final static JFrame lancement = new JFrame();
 	static Menu menu = new Menu();
 	static JPanel pan = new JPanel();
 	static JPanel pan1 = new JPanel();
@@ -39,10 +23,16 @@ public class PageLancement {
 	static JButton join = new JButton("Rejoindre");
 	static JButton score = new JButton("Afficher les scores");
 	static JButton infos = new JButton("Instructions/Commandes");
-	static String nom;
+	static String nom;*/
 	
-	public static void Lancement() throws IOException{		
-		lancement.setTitle("Tetris");
+	public static void Lancement() throws IOException{
+		
+		/**
+		 * Lancement des 2 premières fenêtre (hôte + 1 invité)
+		 */
+		
+		
+		/*lancement.setTitle("Tetris");
 		lancement.setSize(500,400);
 		lancement.setResizable(false);	
 		lancement.setLocationRelativeTo(null);
@@ -80,10 +70,33 @@ public class PageLancement {
 		panel.getComponent(3).setBounds(100,365,120,30);
 		panel.getComponent(4).setBounds(300,365,150,30);
 		
-		lancement.setVisible(true);
+		lancement.setVisible(true);*/
 	}
 	
-	public static String getName()
+	public static void main(String[] args) {
+		 
+		EventQueue.invokeLater(new Runnable() {
+		      public void run() {
+		            try {
+		                  Server frame = new Server();
+		                  frame.setVisible(true);
+		            } catch (Exception e) {
+		                  e.printStackTrace();
+		            }
+		      }});
+		
+
+	     EventQueue.invokeLater(new Runnable() {
+	          public void run() {
+	               try {
+	                    Client frame = new Client();
+	                    frame.setVisible(true);
+	               } catch (Exception e) {
+	                    e.printStackTrace();
+	     }}});
+		}
+	
+	/*public static String getName()
 	{
 		return nom;
 	}
@@ -117,15 +130,21 @@ public class PageLancement {
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				nom = name.getText();
-				if(!nom.equals("")){
-					//PortScanner ps = new PortScanner();
-					Serveur serveur = new Serveur();					
-					pan.setVisible(false);
-					lancement.setVisible(false);
-				}
-				else
-					JOptionPane.showMessageDialog(null, "ALERTE : Vous devez entrer un nom pour jouer !!!");
+				
+				new Thread(new Runnable(){
+					public void run(){
+						nom = name.getText();
+						if(!nom.equals("")){
+							//PortScanner ps = new PortScanner();
+							Serveur serveur = new Serveur();					
+							pan.setVisible(false);
+							lancement.setVisible(false);
+						}
+						else
+							JOptionPane.showMessageDialog(null, "ALERTE : Vous devez entrer un nom pour jouer !!!");
+					}
+				});
+				
 			}			
 		}); 	
 		
@@ -133,23 +152,22 @@ public class PageLancement {
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				nom = name.getText();
-				//multiJ = true;
-				if(!nom.equals("")){
-					//ModeDeJeu jeu = new ModeDeJeu(multiJ);
-				//	jeu.setLocationRelativeTo(null);
-				//	jeu.setVisible(true);
-					Client client = new Client(2009, nom);
-					pan.setVisible(false);
-					lancement.setVisible(false);
-				}
-				else
-					JOptionPane.showMessageDialog(null, "ALERTE : Vous devez entrer un nom pour jouer !!!");			
+					new Thread(new Runnable(){
+						public void run(){
+							nom = name.getText();
+							if(!nom.equals("")){
+								Client client = new Client(2009, nom);
+								pan.setVisible(false);
+								lancement.setVisible(false);
+							}
+							else
+								JOptionPane.showMessageDialog(null, "ALERTE : Vous devez entrer un nom pour jouer !!!");			
+						}
+					});
 			}			
 		});
 		
-	/*	score.addActionListener(new ActionListener()
+		score.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -162,7 +180,7 @@ public class PageLancement {
 				 dialog.setVisible(true);
 			}			
 		});
-		*/
+		
 		infos.addActionListener(new ActionListener()
 		{
 			@Override
@@ -172,7 +190,7 @@ public class PageLancement {
 			}			
 		});
 		
-	}
+	}*/
 
 }
 
